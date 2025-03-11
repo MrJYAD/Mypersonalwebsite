@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Create interactive background particles
     function createBackgroundParticles() {
+        console.log('Creating background elements...');
         const bgAnimation = document.getElementById('bg-animation');
         console.log('Background container:', bgAnimation);
         
@@ -47,8 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        bgAnimation.innerHTML = ''; // Clear any existing elements
-        console.log('Creating background elements...');
+        // Clear any existing elements
+        bgAnimation.innerHTML = '';
         
         // Create brick wall elements
         const brickCount = 15;
@@ -57,8 +58,10 @@ document.addEventListener('DOMContentLoaded', function() {
             brick.classList.add('brick');
             
             // Random positioning
-            brick.style.top = `${Math.random() * 100}vh`;
-            brick.style.left = `${Math.random() * 100}vw`;
+            const topPos = Math.random() * 100;
+            const leftPos = Math.random() * 100;
+            brick.style.top = `${topPos}vh`;
+            brick.style.left = `${leftPos}vw`;
             
             // Random size
             const size = 30 + Math.random() * 50;
@@ -66,13 +69,85 @@ document.addEventListener('DOMContentLoaded', function() {
             brick.style.height = `${size / 2}px`;
             
             // Random rotation
-            brick.style.transform = `rotate(${Math.random() * 360}deg)`;
+            const rotation = Math.random() * 360;
+            brick.style.transform = `rotate(${rotation}deg)`;
             
             // Animation delay
-            brick.style.animationDelay = `${Math.random() * 5}s`;
+            const delay = Math.random() * 5;
+            brick.style.animationDelay = `${delay}s`;
             
+            // Add to the DOM
             bgAnimation.appendChild(brick);
+            console.log('Added brick element');
         }
+        
+        // Create mechanical garage tools
+        const mechanicalTools = [
+            { type: 'wrench', count: 4 },
+            { type: 'screwdriver', count: 4 },
+            { type: 'hammer', count: 3 },
+            { type: 'gear', count: 6 },
+            { type: 'pliers', count: 3 },
+            { type: 'socket', count: 4 }
+        ];
+        
+        mechanicalTools.forEach(tool => {
+            for (let i = 0; i < tool.count; i++) {
+                const mechTool = document.createElement('div');
+                mechTool.classList.add('mechanical-tool', tool.type);
+                
+                // Random positioning
+                const topPos = Math.random() * 100;
+                const leftPos = Math.random() * 100;
+                mechTool.style.top = `${topPos}vh`;
+                mechTool.style.left = `${leftPos}vw`;
+                
+                // Random size
+                const size = 25 + Math.random() * 35;
+                mechTool.style.width = `${size}px`;
+                mechTool.style.height = `${size}px`;
+                
+                // Random rotation
+                const rotation = Math.random() * 360;
+                mechTool.style.transform = `rotate(${rotation}deg)`;
+                
+                // Animation delay and duration
+                const delay = Math.random() * 5;
+                const duration = 20 + Math.random() * 15;
+                mechTool.style.animationDelay = `${delay}s`;
+                mechTool.style.animationDuration = `${duration}s`;
+                
+                // Add interactive hover effect
+                mechTool.addEventListener('mouseover', function() {
+                    this.classList.add('hovered');
+                    this.style.transform = `rotate(${Math.random() * 360}deg) scale(1.2)`;
+                });
+                
+                mechTool.addEventListener('mouseout', function() {
+                    this.classList.remove('hovered');
+                    this.style.transform = `rotate(${rotation}deg) scale(1)`;
+                });
+                
+                // Add click interaction
+                mechTool.addEventListener('click', function() {
+                    this.classList.add('clicked');
+                    
+                    // Random new position
+                    const newTop = Math.random() * 100;
+                    const newLeft = Math.random() * 100;
+                    this.style.top = `${newTop}vh`;
+                    this.style.left = `${newLeft}vw`;
+                    
+                    setTimeout(() => {
+                        this.classList.remove('clicked');
+                    }, 500);
+                });
+                
+                // Add to the DOM
+                bgAnimation.appendChild(mechTool);
+                console.log(`Added mechanical tool: ${tool.type}`);
+            }
+        });
         
         // Create web development elements
         const webElements = [
@@ -89,8 +164,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 webEl.classList.add('web-element', element.type);
                 
                 // Random positioning
-                webEl.style.top = `${Math.random() * 100}vh`;
-                webEl.style.left = `${Math.random() * 100}vw`;
+                const topPos = Math.random() * 100;
+                const leftPos = Math.random() * 100;
+                webEl.style.top = `${topPos}vh`;
+                webEl.style.left = `${leftPos}vw`;
                 
                 // Random size
                 const size = 20 + Math.random() * 30;
@@ -98,70 +175,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 webEl.style.height = `${size}px`;
                 
                 // Random rotation
-                webEl.style.transform = `rotate(${Math.random() * 360}deg)`;
+                const rotation = Math.random() * 360;
+                webEl.style.transform = `rotate(${rotation}deg)`;
                 
                 // Animation delay
-                webEl.style.animationDelay = `${Math.random() * 5}s`;
+                const delay = Math.random() * 5;
+                webEl.style.animationDelay = `${delay}s`;
                 
+                // Add to the DOM
                 bgAnimation.appendChild(webEl);
-            }
-        });
-        
-        // Create garage mechanical tools
-        const mechanicalTools = [
-            { type: 'wrench', count: 4 },
-            { type: 'screwdriver', count: 4 },
-            { type: 'hammer', count: 3 },
-            { type: 'gear', count: 6 },
-            { type: 'pliers', count: 3 },
-            { type: 'socket', count: 4 }
-        ];
-        
-        mechanicalTools.forEach(tool => {
-            for (let i = 0; i < tool.count; i++) {
-                const mechTool = document.createElement('div');
-                mechTool.classList.add('mechanical-tool', tool.type);
-                
-                // Random positioning
-                mechTool.style.top = `${Math.random() * 100}vh`;
-                mechTool.style.left = `${Math.random() * 100}vw`;
-                
-                // Random size
-                const size = 25 + Math.random() * 35;
-                mechTool.style.width = `${size}px`;
-                mechTool.style.height = `${size}px`;
-                
-                // Random rotation
-                mechTool.style.transform = `rotate(${Math.random() * 360}deg)`;
-                
-                // Animation delay and duration
-                mechTool.style.animationDelay = `${Math.random() * 5}s`;
-                mechTool.style.animationDuration = `${20 + Math.random() * 15}s`;
-                
-                // Add interactive hover effect
-                mechTool.addEventListener('mouseover', function() {
-                    this.classList.add('hovered');
-                    this.style.transform = `rotate(${Math.random() * 360}deg) scale(1.2)`;
-                });
-                
-                mechTool.addEventListener('mouseout', function() {
-                    this.classList.remove('hovered');
-                    this.style.transform = `rotate(${Math.random() * 360}deg) scale(1)`;
-                });
-                
-                // Add click interaction
-                mechTool.addEventListener('click', function() {
-                    this.classList.add('clicked');
-                    // Random new position
-                    this.style.top = `${Math.random() * 100}vh`;
-                    this.style.left = `${Math.random() * 100}vw`;
-                    
-                    setTimeout(() => {
-                        this.classList.remove('clicked');
-                    }, 500);
-                });
-                
-                bgAnimation.appendChild(mechTool);
+                console.log(`Added web element: ${element.type}`);
             }
         });
 
@@ -197,6 +220,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+        
+        console.log('Background elements creation complete');
     }
 
     // Update particles on resize and theme changes
