@@ -79,9 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const phrases = [
         "LLM Practitioner",
         "Cybersecurity Researcher", 
-        "AI Developer",
-        "Machine Learning Engineer",
-        "Data Analyst"
+        "AI Engineer"
     ];
 
     let phraseIndex = 0;
