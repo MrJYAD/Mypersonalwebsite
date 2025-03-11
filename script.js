@@ -117,33 +117,41 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(typeWriter, typingSpeed);
     }
 
-    // Set the date to count down to (2 months from now)
-    function startCountdown() {
-        let targetDate;
-        
-        // Check if we already have a stored target date
-        const storedTargetDate = localStorage.getItem('countdownTargetDate');
-        
-        if (storedTargetDate) {
-            // Use the stored date if it exists
-            targetDate = new Date(parseInt(storedTargetDate));
-            
-            // If the stored date is in the past (countdown ended), set a new date
-            if (targetDate - new Date() <= 0) {
-                const currentDate = new Date();
-                targetDate = new Date(currentDate);
-                targetDate.setMonth(currentDate.getMonth() + 2);
-                localStorage.setItem('countdownTargetDate', targetDate.getTime().toString());
-            }
-        } else {
-            // Set a new target date if none exists
-            const currentDate = new Date();
-            targetDate = new Date(currentDate);
-            targetDate.setMonth(currentDate.getMonth() + 2);
-            
-            // Store the target date in localStorage
-            localStorage.setItem('countdownTargetDate', targetDate.getTime().toString());
+    // Helper functions for cookie management
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
         }
+        // Remove path restriction for better cross-domain support on GitHub Pages
+        document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
+    }
+
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    // Set the date to count down to (2 months from deployment)
+    function startCountdown() {
+        // DEPLOYMENT DATE: Set this to your exact deployment date and time
+        // Format: Year, Month (0-11), Day, Hour, Minute, Second
+        const deploymentDate = new Date(2025, 2, 11, 6, 30, 0); // March 11, 2025, 06:30:00 AM
+        
+        // Calculate the end date (exactly 2 months after deployment)
+        const targetDate = new Date(deploymentDate);
+        targetDate.setMonth(deploymentDate.getMonth() + 2);
+        
+        console.log('Deployment date:', deploymentDate);
+        console.log('Target end date:', targetDate);
         
         // Update the countdown every second
         const countdown = setInterval(function() {
