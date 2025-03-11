@@ -119,9 +119,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Set the date to count down to (2 months from now)
     function startCountdown() {
-        const currentDate = new Date();
-        const targetDate = new Date(currentDate);
-        targetDate.setMonth(currentDate.getMonth() + 2);
+        let targetDate;
+        
+        // Check if we already have a stored target date
+        const storedTargetDate = localStorage.getItem('countdownTargetDate');
+        
+        if (storedTargetDate) {
+            // Use the stored date if it exists
+            targetDate = new Date(parseInt(storedTargetDate));
+            
+            // If the stored date is in the past (countdown ended), set a new date
+            if (targetDate - new Date() <= 0) {
+                const currentDate = new Date();
+                targetDate = new Date(currentDate);
+                targetDate.setMonth(currentDate.getMonth() + 2);
+                localStorage.setItem('countdownTargetDate', targetDate.getTime().toString());
+            }
+        } else {
+            // Set a new target date if none exists
+            const currentDate = new Date();
+            targetDate = new Date(currentDate);
+            targetDate.setMonth(currentDate.getMonth() + 2);
+            
+            // Store the target date in localStorage
+            localStorage.setItem('countdownTargetDate', targetDate.getTime().toString());
+        }
         
         // Update the countdown every second
         const countdown = setInterval(function() {
