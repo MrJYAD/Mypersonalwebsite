@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#1a1a1a" rx="8" ry="8"/>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#f7a01b" font-family="Arial, sans-serif" font-weight="bold" font-size="32">JY</text>
+  <path d="M8 56 L56 8" stroke="#3498db" stroke-width="4" stroke-linecap="round"/>
+  <path d="M8 8 L56 56" stroke="#d04925" stroke-width="4" stroke-linecap="round"/>
+</svg>
