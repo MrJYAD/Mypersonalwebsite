@@ -1,5 +1,6 @@
 // Dark mode toggle
 document.addEventListener('DOMContentLoaded', function() {
+    // Theme functions
     const themeToggle = document.getElementById('theme-toggle');
     const themeIcon = document.getElementById('theme-icon');
 
@@ -33,45 +34,174 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('theme', newTheme);
         
         console.log('Theme toggled to:', newTheme); // Debug log
-    }
-
-    // Initialize theme first
-    initializeTheme();
-    
-    // Add event listener to theme toggle
-    if (themeToggle) {
-        themeToggle.addEventListener('click', toggleTheme);
-        console.log('Theme toggle listener added'); // Debug log
-    } else {
-        console.error('Theme toggle button not found!');
+        updateParticles(); // Update particles when theme changes
     }
 
     // Create interactive background particles
     function createBackgroundParticles() {
         const bgAnimation = document.getElementById('bg-animation');
-        const particleCount = 15;
+        console.log('Background container:', bgAnimation);
         
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('bg-particle');
+        if (!bgAnimation) {
+            console.error('Background animation container not found!');
+            return;
+        }
+        
+        bgAnimation.innerHTML = ''; // Clear any existing elements
+        console.log('Creating background elements...');
+        
+        // Create brick wall elements
+        const brickCount = 15;
+        for (let i = 0; i < brickCount; i++) {
+            const brick = document.createElement('div');
+            brick.classList.add('brick');
             
-            // Random position
-            const x = Math.random() * 100;
-            const y = Math.random() * 100;
-            particle.style.left = `${x}%`;
-            particle.style.top = `${y}%`;
+            // Random positioning
+            brick.style.top = `${Math.random() * 100}vh`;
+            brick.style.left = `${Math.random() * 100}vw`;
             
             // Random size
-            const size = Math.random() * 200 + 50;
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
+            const size = 30 + Math.random() * 50;
+            brick.style.width = `${size}px`;
+            brick.style.height = `${size / 2}px`;
             
-            // Random animation delay
-            const delay = Math.random() * 10;
-            particle.style.animationDelay = `${delay}s`;
+            // Random rotation
+            brick.style.transform = `rotate(${Math.random() * 360}deg)`;
             
-            bgAnimation.appendChild(particle);
+            // Animation delay
+            brick.style.animationDelay = `${Math.random() * 5}s`;
+            
+            bgAnimation.appendChild(brick);
         }
+        
+        // Create web development elements
+        const webElements = [
+            { type: 'code-html', count: 5 },
+            { type: 'code-css', count: 5 },
+            { type: 'code-js', count: 5 },
+            { type: 'ruler', count: 3 },
+            { type: 'pen', count: 3 }
+        ];
+        
+        webElements.forEach(element => {
+            for (let i = 0; i < element.count; i++) {
+                const webEl = document.createElement('div');
+                webEl.classList.add('web-element', element.type);
+                
+                // Random positioning
+                webEl.style.top = `${Math.random() * 100}vh`;
+                webEl.style.left = `${Math.random() * 100}vw`;
+                
+                // Random size
+                const size = 20 + Math.random() * 30;
+                webEl.style.width = `${size}px`;
+                webEl.style.height = `${size}px`;
+                
+                // Random rotation
+                webEl.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                // Animation delay
+                webEl.style.animationDelay = `${Math.random() * 5}s`;
+                
+                bgAnimation.appendChild(webEl);
+            }
+        });
+        
+        // Create garage mechanical tools
+        const mechanicalTools = [
+            { type: 'wrench', count: 4 },
+            { type: 'screwdriver', count: 4 },
+            { type: 'hammer', count: 3 },
+            { type: 'gear', count: 6 },
+            { type: 'pliers', count: 3 },
+            { type: 'socket', count: 4 }
+        ];
+        
+        mechanicalTools.forEach(tool => {
+            for (let i = 0; i < tool.count; i++) {
+                const mechTool = document.createElement('div');
+                mechTool.classList.add('mechanical-tool', tool.type);
+                
+                // Random positioning
+                mechTool.style.top = `${Math.random() * 100}vh`;
+                mechTool.style.left = `${Math.random() * 100}vw`;
+                
+                // Random size
+                const size = 25 + Math.random() * 35;
+                mechTool.style.width = `${size}px`;
+                mechTool.style.height = `${size}px`;
+                
+                // Random rotation
+                mechTool.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                // Animation delay and duration
+                mechTool.style.animationDelay = `${Math.random() * 5}s`;
+                mechTool.style.animationDuration = `${20 + Math.random() * 15}s`;
+                
+                // Add interactive hover effect
+                mechTool.addEventListener('mouseover', function() {
+                    this.classList.add('hovered');
+                    this.style.transform = `rotate(${Math.random() * 360}deg) scale(1.2)`;
+                });
+                
+                mechTool.addEventListener('mouseout', function() {
+                    this.classList.remove('hovered');
+                    this.style.transform = `rotate(${Math.random() * 360}deg) scale(1)`;
+                });
+                
+                // Add click interaction
+                mechTool.addEventListener('click', function() {
+                    this.classList.add('clicked');
+                    // Random new position
+                    this.style.top = `${Math.random() * 100}vh`;
+                    this.style.left = `${Math.random() * 100}vw`;
+                    
+                    setTimeout(() => {
+                        this.classList.remove('clicked');
+                    }, 500);
+                });
+                
+                bgAnimation.appendChild(mechTool);
+            }
+        });
+
+        // Add cursor follow effect
+        document.addEventListener('mousemove', function(e) {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            // Apply subtle attraction to nearby elements
+            const allElements = document.querySelectorAll('.brick, .web-element, .mechanical-tool');
+            allElements.forEach(element => {
+                const rect = element.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                // Calculate distance from mouse to element
+                const distance = Math.sqrt(
+                    Math.pow(mouseX - centerX, 2) + 
+                    Math.pow(mouseY - centerY, 2)
+                );
+                
+                // Apply attraction if mouse is close enough
+                if (distance < 150) {
+                    const angle = Math.atan2(mouseY - centerY, mouseX - centerX);
+                    const attraction = 50 / (distance + 10); // More attraction when closer
+                    
+                    // Apply subtle movement toward cursor
+                    const currentTransform = element.style.transform;
+                    const translateX = Math.cos(angle) * attraction;
+                    const translateY = Math.sin(angle) * attraction;
+                    
+                    element.style.transform = `${currentTransform.replace(/translate\([^)]*\)/, '')} translate(${translateX}px, ${translateY}px)`;
+                }
+            });
+        });
+    }
+
+    // Update particles on resize and theme changes
+    function updateParticles() {
+        createBackgroundParticles();
     }
 
     // Typing animation
@@ -186,8 +316,22 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('current-year').textContent = new Date().getFullYear();
     }
 
+    // Initialize all functionality
+    initializeTheme();
     createBackgroundParticles();
     typeWriter();
     startCountdown();
     updateCopyright();
+    
+    // Add event listeners
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+    
+    // Update on resize with debounce
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(createBackgroundParticles, 200);
+    });
 });
